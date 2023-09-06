@@ -7,6 +7,7 @@ namespace InputSystem
     public class InputListener : MonoBehaviour
     {
         [SerializeField] private KeyCode jumpKey;
+        [SerializeField] private KeyCode shootKey;
         [SerializeField] private Player player;
         [SerializeField] private TMP_Text inputStateText;
         private PlayerInvoker _playerInvoker;
@@ -25,6 +26,7 @@ namespace InputSystem
                 ReadJumpKey();
                 ReadMove();
                 ReadRotate();
+                ReadShoot();
             }
             
             ReadOffInputKey();
@@ -57,6 +59,14 @@ namespace InputSystem
             }
         }
        
+        private void ReadShoot()
+        {
+            if (Input.GetKeyDown(shootKey))
+            {
+                _playerInvoker.Shoot();
+            }
+        }
+        
         private void ReadOffInputKey()
         {
             if (Input.GetKeyDown(KeyCode.Return))

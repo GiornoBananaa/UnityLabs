@@ -6,7 +6,6 @@ namespace PlayerSystem
     {
         public void Move(Rigidbody rb, float speed, Vector3 moveDirection)
         {
-            Debug.Log(moveDirection);
             Vector3 velocity = moveDirection * speed;
             rb.velocity = new Vector3(velocity.x,rb.velocity.y,velocity.z);
         }
