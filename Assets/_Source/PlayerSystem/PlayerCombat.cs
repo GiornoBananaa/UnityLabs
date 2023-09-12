@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace PlayerSystem
 {
-    public class PlayerCombat : MonoBehaviour
+    public class PlayerCombat
     {
         public void Shoot(Transform firePoint, GameObject bulletPrefab)
         {
-            Instantiate(bulletPrefab,firePoint);
+            GameObject bullet = GameObject.Instantiate(bulletPrefab,firePoint);
         }
     }
 }

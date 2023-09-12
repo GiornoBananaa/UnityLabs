@@ -14,7 +14,7 @@ namespace PlayerSystem
             _playerMovement = new PlayerMovement();
             _playerCombat = new PlayerCombat();
         }
-
+        
         public void Move(Vector3 moveDirection)
         {
             _playerMovement.Move(_player.Rb, _player.MovementSpeed, moveDirection);
