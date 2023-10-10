@@ -52,6 +52,7 @@ namespace NuclearSystem.View
             
             _isDecoy = false;
             timeText.text = "0";
+            _button.image.raycastTarget = false;
         }
 
         private void Update()
@@ -62,11 +63,13 @@ namespace NuclearSystem.View
         public void StartDecay()
         {
             _icon.sprite = _decaySprite;
+            _button.image.raycastTarget = true;
         }
         
         public void StopDecay()
         {
             _icon.sprite = _processSprite;
+            _button.image.raycastTarget = false;
         }
     }
 }
