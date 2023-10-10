@@ -1,18 +1,30 @@
-using System.Collections;
 using System.Collections.Generic;
+using NuclearSystem;
+using NuclearSystem.View;
+using TimerSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Bootstrapper : MonoBehaviour
+namespace Core
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Bootstrapper : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private ResourceButton[] resourceButtons;
+        [SerializeField] private GameTimer gameTimer;
+        [SerializeField] private GameObject lossPanel;
+        [SerializeField] private Button lossRestartButton;
 
-    // Update is called once per frame
-    void Update()
-    {
+        private ResourceViewService _resourceViewService;
+        private Game _game;
         
+        private void Awake()
+        {
+            _game = new Game(lossPanel,lossRestartButton, resourceButtons, gameTimer);
+
+            foreach (var button in resourceButtons)
+            {
+                button.Construct(_game);
+            }
+        }
     }
 }
