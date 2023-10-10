@@ -14,28 +14,18 @@ namespace NuclearSystem.View
         [SerializeField] private NuclearResourceType resourceType;
         [SerializeField] private TMP_Text timeText;
         
-        private Game _game;
         private Image _icon;
         private Button _button;
         private Sprite _processSprite;
         private Sprite _decaySprite;
-        private float _timeDecoy;
-        private float _timeProcess;
-        private float _timeRemained;
         private bool _isDecoy;
-        private bool _isPause;
-
-        public void Construct(Game game)
-        {
-            _game = game;
-        }
         
         private void Start()
         {
             _icon = GetComponent<Image>();
             _button = GetComponent<Button>();
             
-            _button.onClick.AddListener(CoolRecource);
+            _button.onClick.AddListener(() => ResourceTimerService.Instance.StopDecay(this));
             
             if (ResourceViewService.Instance.GetProcessResourceIcon(resourceType, out Sprite processIcon))
             {
@@ -46,61 +36,37 @@ namespace NuclearSystem.View
             {
                 _decaySprite = deacyIcon;
             }
+
+            float timeDecoy = 0;
+            float timeProcess = 0;
             if (ResourceTimeService.Instance.GetDecayResourceTime(resourceType, out float deacyTime))
             {
-                _timeDecoy = deacyTime;
+                timeDecoy = deacyTime;
             }
             if (ResourceTimeService.Instance.GetProcessResourceTime(resourceType, out float processTime))
             {
-                _timeProcess = processTime;
-                _timeRemained = processTime;
+                timeProcess = processTime;
             }
-
+            
+            ResourceTimerService.Instance.AddTimer(this,timeProcess, timeDecoy,timeText);
+            
             _isDecoy = false;
-            _isPause = false;
             timeText.text = "0";
         }
 
         private void Update()
         {
-            UpdateTime();
+            ResourceTimerService.Instance.UpdateTimer(this);
         }
 
-        public void PauseTimer()
+        public void StartDecay()
         {
-            _isPause = true;
+            _icon.sprite = _decaySprite;
         }
         
-        private void CoolRecource()
+        public void StopDecay()
         {
-            if (_isDecoy)
-            {
-                _isDecoy = false;
-                _timeRemained = _timeProcess;
-                _icon.sprite = _processSprite;
-            }
-        }
-        
-        private void UpdateTime()
-        {
-            if(_isPause) return;
-            
-            _timeRemained -= UnityEngine.Time.deltaTime;
-            
-            timeText.text = _timeRemained.ToString("F2",CultureInfo.InvariantCulture);
-            
-            if (_timeRemained > 0) return;
-            
-            if (_isDecoy)
-            {
-                _game.LoseGame();
-            }
-            else
-            {
-                _isDecoy = true;
-                _timeRemained = _timeDecoy;
-                _icon.sprite = _decaySprite;
-            }
+            _icon.sprite = _processSprite;
         }
     }
 }

@@ -1,3 +1,4 @@
+using NuclearSystem.Time;
 using NuclearSystem.View;
 using TimerSystem;
 using UnityEngine;
@@ -34,10 +35,7 @@ namespace Core
         public void PauseGame()
         {
             _gameTimer.Pause();
-            foreach (var buttons in _recourceButtons)
-            {
-                buttons.PauseTimer();
-            }
+            ResourceTimerService.Instance.PauseAllTimers();
         }
     }
 }

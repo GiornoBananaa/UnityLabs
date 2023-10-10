@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using NuclearSystem;
+using NuclearSystem.Time;
 using NuclearSystem.View;
 using TimerSystem;
 using UnityEngine;
@@ -20,11 +19,7 @@ namespace Core
         private void Awake()
         {
             _game = new Game(lossPanel,lossRestartButton, resourceButtons, gameTimer);
-
-            foreach (var button in resourceButtons)
-            {
-                button.Construct(_game);
-            }
+            ResourceTimerService.Instance.Construct(_game);
         }
     }
 }
