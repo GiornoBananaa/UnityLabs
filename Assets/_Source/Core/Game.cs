@@ -1,3 +1,4 @@
+using System;
 using NuclearSystem.Time;
 using NuclearSystem.View;
 using TimerSystem;
@@ -11,14 +12,14 @@ namespace Core
     {
         private GameObject _lossPanel;
         private GameTimer _gameTimer;
-        private ResourceButton[] _recourceButtons;
         
-        public Game(GameObject lossPanel, Button lossRestartButton, ResourceButton[] recourceButtons,GameTimer gameTimer)
+        public Game(GameObject lossPanel, Button lossRestartButton, GameTimer gameTimer)
         {
             _lossPanel = lossPanel;
             lossRestartButton.onClick.AddListener(Restart);
             _gameTimer = gameTimer;
-            _recourceButtons = recourceButtons;
+            ResourceTimerService.Instance.QuitPause();
+            ResourceTimerService.Instance.OnDecayTimerEnd += LoseGame;
         }
         
         public void Restart()
@@ -28,6 +29,7 @@ namespace Core
         
         public void LoseGame()
         {
+            ResourceTimerService.Instance.OnDecayTimerEnd -= LoseGame;
             PauseGame();
             _lossPanel.SetActive(true);
         }

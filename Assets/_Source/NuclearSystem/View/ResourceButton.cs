@@ -1,5 +1,3 @@
-using System.Globalization;
-using Core;
 using NuclearSystem.Data;
 using NuclearSystem.Time;
 using TMPro;

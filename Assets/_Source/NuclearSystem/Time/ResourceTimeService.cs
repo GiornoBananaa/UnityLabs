@@ -1,5 +1,4 @@
 using NuclearSystem.Data;
-using NuclearSystem.View;
 using UnityEngine;
 
 namespace NuclearSystem.Time

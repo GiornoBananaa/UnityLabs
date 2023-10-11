@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection.Emit;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Core;
-using NuclearSystem.Data;
 using NuclearSystem.View;
 using TMPro;
-using UnityEngine;
 
 namespace NuclearSystem.Time
 {
     public class ResourceTimerService
     {
+        public Action OnDecayTimerEnd;
+        
         private static ResourceTimerService instance;
+        private Dictionary<ResourceButton, ResourceTimerData> _resourceTimerDatas = new Dictionary<ResourceButton, ResourceTimerData>();
+        private bool _isPause = false;
         
         public static ResourceTimerService Instance
         {
@@ -26,16 +26,6 @@ namespace NuclearSystem.Time
 
                 return instance;
             }
-        }
-        
-        private Dictionary<ResourceButton, ResourceTimerData> _resourceTimerDatas = new Dictionary<ResourceButton, ResourceTimerData>();
-        private Game _game;
-        private bool _isPause;
-
-        public void Construct(Game game)
-        {
-            _game = game;
-            _isPause = false;
         }
         
         public void UpdateTimer(ResourceButton button)
@@ -51,7 +41,7 @@ namespace NuclearSystem.Time
             
             if (timer.IsDecay)
             {
-                _game.LoseGame();
+                OnDecayTimerEnd.Invoke();
             }
             else
             {
@@ -76,6 +66,11 @@ namespace NuclearSystem.Time
         public void PauseAllTimers()
         {
             _isPause = true;
+        }
+        
+        public void QuitPause()
+        {
+            _isPause = false;
         }
     }
 
