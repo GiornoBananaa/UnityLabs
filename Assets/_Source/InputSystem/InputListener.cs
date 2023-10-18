@@ -1,4 +1,3 @@
-using System;
 using PlayerSystem;
 using UnityEngine;
 
@@ -6,9 +5,14 @@ namespace InputSystem
 {
     public class InputListener : MonoBehaviour
     {
-        [SerializeField] private CharacterShooter characterShooter;
         [SerializeField] private KeyCode shootKeyCode;
+        private CharacterShooter _characterShooter;
 
+        public void Construct(CharacterShooter characterShooter)
+        {
+            _characterShooter = characterShooter;
+        }
+        
         private void Update()
         {
             CheckSoot();
@@ -18,7 +22,7 @@ namespace InputSystem
         {
             if (Input.GetKeyDown(shootKeyCode))
             {
-                characterShooter.Shoot();
+                _characterShooter.Shoot();
             }
         }
     }

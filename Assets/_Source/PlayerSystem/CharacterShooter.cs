@@ -3,17 +3,23 @@ using UnityEngine;
 
 namespace PlayerSystem
 {
-    public class CharacterShooter : MonoBehaviour
+    public class CharacterShooter
     {
-        [SerializeField] private ObjectPool bulletPool;
-        [SerializeField] private Transform firePoint;
+        private Player _player;
+        private BulletPool _bulletPool;
+
+        public CharacterShooter(Player player, BulletPool bulletPool)
+        {
+            _player = player;
+            _bulletPool = bulletPool;
+        }
         
         public void Shoot()
         {
-            if (bulletPool.TryGetFromPool(out GameObject bulletInstance))
+            if (_bulletPool.TryGetFromPool(out GameObject bulletInstance))
             {
-                bulletInstance.transform.position = firePoint.position;
-                bulletInstance.transform.rotation = firePoint.rotation;
+                bulletInstance.transform.position = _player.FirePoint.position;
+                bulletInstance.transform.rotation = _player.FirePoint.rotation;
             }
         }
     

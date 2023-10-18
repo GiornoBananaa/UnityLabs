@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace BulletSystem
@@ -8,7 +9,10 @@ namespace BulletSystem
         [SerializeField] private float lifeTime;
         
         private float _currentLifeTime;
-        private ObjectPool _owner;
+        private BulletPool _owner;
+        public Action OnLifeEnd;
+        public Action OnBulletDestroy;
+        
         private void OnEnable()
         {
             _currentLifeTime = lifeTime;
@@ -24,16 +28,17 @@ namespace BulletSystem
         {
             transform.position += transform.forward * (speed * Time.deltaTime);
         }
+        
         private void CheckLifeTime()
         {
             _currentLifeTime -= Time.deltaTime;
             if(_currentLifeTime<0) 
-                _owner.ReturnToPool(gameObject);
+                OnLifeEnd.Invoke();
         }
 
-        public void SetOwner(ObjectPool bulletPool)
+        private void OnDestroy()
         {
-            _owner = bulletPool;
+            OnBulletDestroy.Invoke();
         }
     }
 }
