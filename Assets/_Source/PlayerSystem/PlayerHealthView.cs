@@ -9,7 +9,7 @@ namespace PlayerSystem
         
         public void UpdateHpText(int hp)
         {
-            _hpText.text = $"Current hp: {hp}";
+            _hpText.text = hp.ToString();
         }
     }
 }

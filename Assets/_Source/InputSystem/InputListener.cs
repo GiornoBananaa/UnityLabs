@@ -19,8 +19,8 @@ namespace InputSystem
 
         private void ReadPlayerMove()
         {
-            float x = Input.GetAxis("Vertical");
-            float y = Input.GetAxis("Horizontal");
+            float x = Input.GetAxis("Horizontal");
+            float y = Input.GetAxis("Vertical");
             
             _player.MovePlayer(new Vector3(x,y));
         }

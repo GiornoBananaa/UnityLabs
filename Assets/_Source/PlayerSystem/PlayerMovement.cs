@@ -4,18 +4,18 @@ namespace PlayerSystem
 {
     public class PlayerMovement
     {
-        private Transform _transform;
+        private readonly Rigidbody2D _rigidbody;
         private float _speed;
 
-        public PlayerMovement(Transform transform, float speed)
+        public PlayerMovement(Rigidbody2D rigidbody, float speed)
         {
-            _transform = transform;
+            _rigidbody = rigidbody;
             _speed = speed;
         }
 
         public void Move(Vector3 direction)
         {
-            _transform.position += direction.normalized * (_speed * Time.deltaTime);
+            _rigidbody.velocity = direction.normalized * _speed;
         }
     }
 }

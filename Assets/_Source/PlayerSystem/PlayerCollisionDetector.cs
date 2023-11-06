@@ -13,11 +13,11 @@ namespace PlayerSystem
             _player = player;
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnCollisionEnter2D(Collision2D other)
         {
             if(_enemyMask == (_enemyMask  | (1<<other.gameObject.layer)))
             {
-                _player.GetDamage(1);
+                _player.GetDamage(-1);
             }
         }
     }
