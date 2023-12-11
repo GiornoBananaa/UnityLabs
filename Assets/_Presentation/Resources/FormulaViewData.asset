@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FormulaViewData
   m_EditorClassIdentifier: 
   <MassEnergyEquivalenceFormula>k__BackingField: E = mc
-  <ArchimedesFormula>k__BackingField: 
-  <BodyImpulseFormula>k__BackingField: 
-  <BodyDensityFormula>k__BackingField: 
-  <JouleLenzFormula>k__BackingField: 
+  <ArchimedesFormula>k__BackingField: F = pgV
+  <BodyImpulseFormula>k__BackingField: p = mv
+  <BodyDensityFormula>k__BackingField: p = m/V
+  <JouleLenzFormula>k__BackingField: Q = IRt

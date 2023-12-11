@@ -12,9 +12,9 @@ public static class FormulaCalculation
         return mass * _constantsData.LightSpeed * _constantsData.LightSpeed;
     }
     
-    public static float ArchimedesForce(float density,float mass, float volume)
+    public static float ArchimedesForce(float density, float volume)
     {
-        return density * mass * volume;
+        return density * _constantsData.GravitationalAcceleration * volume;
     }
     
     public static float BodyImpulse(float mass, float speed)
