@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PlayerSystem;
 
 namespace Core
 {
@@ -7,17 +8,21 @@ namespace Core
     {
         private Dictionary<Type, T> _states;
         private AState _currState;
-
-        public StateMachine(T shootAttackState)
+        
+        public StateMachine(T shootAttackState, T rangeAttackState, T stealthAttackState)
         {
-            SetupStates(shootAttackState);
+            SetupStates(shootAttackState, rangeAttackState, stealthAttackState);
         }
 
-        private void SetupStates(T shootAttackState)
+        public StateMachine() { }
+
+        public void SetupStates(T shootAttackState, T rangeAttackState, T stealthAttackState)
         {
             _states = new()
             {
-                {typeof(ShootAttackState), shootAttackState}
+                {typeof(ShootAttackState), shootAttackState},
+                {typeof(RangeAttackState), rangeAttackState},
+                {typeof(StealthAttackState), stealthAttackState}
             };
 
             foreach (var state in _states)
@@ -25,7 +30,7 @@ namespace Core
                 state.Value.SetOwner(this);
             }
         }
-
+        
         public bool ChangeState<T>()
         {
             _currState?.Exit();
@@ -40,11 +45,5 @@ namespace Core
         }
         
         public void Update() => _currState.Update();
-    }
-
-    public interface IStateMachine
-    {
-        bool ChangeState<T>();
-        void Update();
     }
 }
