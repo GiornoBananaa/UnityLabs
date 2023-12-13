@@ -17,5 +17,6 @@ namespace PlayerSystem
         {
             Object.Instantiate(_bulletPrefab,_firePoint.position,_firePoint.rotation);
         }
+        public override void DisarmPlayer() { }
     }
 }

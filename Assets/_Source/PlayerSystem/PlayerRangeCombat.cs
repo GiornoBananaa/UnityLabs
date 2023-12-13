@@ -15,5 +15,10 @@ namespace PlayerSystem
         {
             _redZone.SetActive(!_redZone.activeSelf);
         }
+
+        public override void DisarmPlayer()
+        {
+            _redZone.SetActive(false);
+        }
     }
 }

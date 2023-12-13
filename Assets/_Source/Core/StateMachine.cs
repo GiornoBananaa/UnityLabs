@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using PlayerSystem;
+using UnityEngine;
 
 namespace Core
 {
@@ -9,21 +10,22 @@ namespace Core
         private Dictionary<Type, T> _states;
         private AState _currState;
         
-        public StateMachine(T shootAttackState, T rangeAttackState, T stealthAttackState)
+        public StateMachine(params T[] states)
         {
-            SetupStates(shootAttackState, rangeAttackState, stealthAttackState);
+            SetupStates(states);
         }
 
         public StateMachine() { }
 
-        public void SetupStates(T shootAttackState, T rangeAttackState, T stealthAttackState)
+        public Type CurrentState => _currState.GetType();
+        
+        public void SetupStates(params T[] states)
         {
-            _states = new()
+            _states = new();
+            foreach (var state in states)
             {
-                {typeof(ShootAttackState), shootAttackState},
-                {typeof(RangeAttackState), rangeAttackState},
-                {typeof(StealthAttackState), stealthAttackState}
-            };
+                _states.Add(state.GetType(),state);
+            }
 
             foreach (var state in _states)
             {

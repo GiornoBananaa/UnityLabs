@@ -10,7 +10,6 @@ namespace PlayerSystem
         private PlayerMovement _playerMovement;
         private PlayerCombat _playerCombat;
         private IStateMachine _combatStateMachine;
-        
         private Dictionary<Type, PlayerCombat> _states;
         
         public Player(PlayerMovement playerMovement, PlayerCombat playerCombat, IStateMachine combatStateMachine, Dictionary<Type, PlayerCombat> states)
@@ -39,6 +38,14 @@ namespace PlayerSystem
         public void Attack()
         {
             _playerCombat.Attack();
+        }
+        
+        public void DisarmPlayer()
+        {
+            _combatStateMachine.ChangeState<RangeAttackState>();
+            _playerCombat.DisarmPlayer();
+            _combatStateMachine.ChangeState<StealthAttackState>();
+            _playerCombat.DisarmPlayer();
         }
     }
 }
