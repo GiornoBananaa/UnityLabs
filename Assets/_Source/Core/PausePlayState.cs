@@ -1,28 +1,27 @@
 using InputSystem;
+using TMPro;
 using UnityEngine;
 
 namespace Core
 {
     public class PausePlayState : AState
     {
-        private GameObject _pausePanel;
-
-        public PausePlayState(GameObject pausePanel)
-        {
-            _pausePanel = pausePanel;
-        }
+        private readonly TMP_Text _stateText;
         
+        public PausePlayState(TMP_Text stateText)
+        {
+            _stateText = stateText;
+        }
         public override void Enter()
         {
             base.Enter();
-            _pausePanel.SetActive(true);
+            _stateText.text = "Pause";
             Time.timeScale = 0;
         }
         
         public override void Exit()
         {
             base.Exit();
-            _pausePanel.SetActive(false);
             Time.timeScale = 1;
         }
     }

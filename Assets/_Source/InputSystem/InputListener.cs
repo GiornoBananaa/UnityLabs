@@ -77,7 +77,7 @@ namespace InputSystem
         {
             if (!Input.GetKeyDown(_pauseGameStateKey)) return;
             
-            if(_gameStateMachine.CurrentState == typeof(PausePlayState))
+            if(_gameStateMachine.CurrentState == typeof(FinalPlayState))
                 return;
             if (_gameStateMachine.CurrentState == typeof(PausePlayState))
                 _gameStateMachine.ChangeState<GamePlayState>();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using InputSystem;
 using PlayerSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,8 @@ namespace Core
         [SerializeField] private Transform _firePoint;
         [SerializeField] private GameObject _redZone;
         [SerializeField] private SpriteRenderer _spriteRenderer;
-        [SerializeField] private Button _pauseButton;
+        [SerializeField] private TMP_Text _gameStateText;
+        [SerializeField] private TMP_Text _combatStateText;
         private Player _player;
         private PlayerMovement _playerMovement;
         private PlayerCombat _playerCombat;
@@ -35,17 +37,16 @@ namespace Core
             _playerMovement = new PlayerMovement(_playerSpeed,_playerTransform);
             _player = new Player(_playerMovement,_playerCombat, _playerCombatStateMachine,playerCombats);
             _playerCombatStateMachine.SetupStates(
-                new ShootAttackState(_player),
-                new RangeAttackState(_player),
-                new StealthAttackState(_player));
-            _gameStateMachine = new StateMachine<AState>(new GamePlayState(_inputListener),
-                new PausePlayState(_pauseButton.gameObject),
-                new FinalPlayState(_player));
+                new ShootAttackState(_player,_combatStateText),
+                new RangeAttackState(_player,_combatStateText),
+                new StealthAttackState(_player,_combatStateText));
+            _gameStateMachine = new StateMachine<AState>(
+                new GamePlayState(_inputListener,_gameStateText),
+                new PausePlayState(_gameStateText),
+                new FinalPlayState(_player,_gameStateText));
             _inputListener.Construct(_player,_gameStateMachine);
             _player.ChangeCombatState<ShootAttackState>();
-            _pauseButton.onClick.AddListener(()=>_gameStateMachine.ChangeState<GamePlayState>());
             _gameStateMachine.ChangeState<GamePlayState>();
-            
         }
 
         private void Update()
