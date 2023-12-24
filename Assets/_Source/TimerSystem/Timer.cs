@@ -3,104 +3,107 @@ using System.Collections.Generic;
 using Core;
 using UnityEngine;
 
-public class Timer : MonoBehaviour,IObservable
+namespace TimerSystem
 {
-    [SerializeField] private float _dayPartTime;
-    private List<IObserver> _observers;
-    private DayState _currDayState;
-    private float _time;
+    public class Timer : MonoBehaviour,IObservable
+    {
+        [SerializeField] private float _dayPartTime;
+        private List<IObserver> _observers;
+        private DayState _currDayState;
+        private float _time;
     
-    private void Awake()
-    {
-        _observers = new List<IObserver>();
-    }
-
-    private void Start()
-    {
-        SetDayState(DayState.Morning);
-        _time = 6;
-    }
-
-    private void Update()
-    {
-        _time += Time.deltaTime;
-        CheckTime();
-    }
-    
-    #region Observable
-    
-    public bool RegisterObserver(IObserver observer)
-    {
-        bool success = false;
-        if (!_observers.Contains(observer))
+        private void Awake()
         {
-            _observers.Add(observer);
-            success = true;
+            _observers = new List<IObserver>();
         }
-        return success;
-    }
 
-    public bool RemoveObserver(IObserver observer)
-    {
-        bool success = false;
-        if (!_observers.Contains(observer))
+        private void Start()
         {
-            _observers.Remove(observer);
-            success = true;
+            SetDayState(DayState.Morning);
+            _time = _dayPartTime;
         }
-        return success;
-    }
 
-    public void Notify()
-    {
-        foreach (var observer in _observers)
+        private void Update()
         {
-            observer.Update(_currDayState);
+            _time += Time.deltaTime;
+            CheckTime();
         }
-    }
     
-    #endregion
-
-    #region Timer
-
-    private void CheckTime()
-    {
-        switch (_currDayState)
+        #region Observable
+    
+        public bool RegisterObserver(IObserver observer)
         {
-            case DayState.Night:
-                if (_time >= _dayPartTime)
-                {
-                    SetDayState(DayState.Morning);
-                }
-                break;
-            case DayState.Morning:
-                if (_time >= _dayPartTime*2)
-                {
-                    SetDayState(DayState.Day);
-                }
-                break;
-            case DayState.Day:
-                if (_time >= _dayPartTime*3)
-                {
-                    SetDayState(DayState.Afternoon);
-                }
-                break;
-            case DayState.Afternoon:
-                if (_time >= _dayPartTime*4)
-                {
-                    SetDayState(DayState.Night);
-                }
-                break;
+            bool success = false;
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+                success = true;
+            }
+            return success;
         }
-    }
+
+        public bool RemoveObserver(IObserver observer)
+        {
+            bool success = false;
+            if (!_observers.Contains(observer))
+            {
+                _observers.Remove(observer);
+                success = true;
+            }
+            return success;
+        }
+
+        public void Notify()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update(_currDayState);
+            }
+        }
     
-    private void SetDayState(DayState dayState)
-    {
-        _currDayState = dayState;
-        if (dayState == DayState.Night)
-            _time = 0;
-        Notify();
-    }
+        #endregion
+
+        #region Timer
+
+        private void CheckTime()
+        {
+            switch (_currDayState)
+            {
+                case DayState.Night:
+                    if (_time >= _dayPartTime)
+                    {
+                        SetDayState(DayState.Morning);
+                    }
+                    break;
+                case DayState.Morning:
+                    if (_time >= _dayPartTime*2)
+                    {
+                        SetDayState(DayState.Day);
+                    }
+                    break;
+                case DayState.Day:
+                    if (_time >= _dayPartTime*3)
+                    {
+                        SetDayState(DayState.Afternoon);
+                    }
+                    break;
+                case DayState.Afternoon:
+                    if (_time >= _dayPartTime*4)
+                    {
+                        SetDayState(DayState.Night);
+                    }
+                    break;
+            }
+        }
     
-    #endregion
+        private void SetDayState(DayState dayState)
+        {
+            _currDayState = dayState;
+            if (dayState == DayState.Night)
+                _time = 0;
+            Notify();
+        }
+    
+        #endregion
+    }
 }

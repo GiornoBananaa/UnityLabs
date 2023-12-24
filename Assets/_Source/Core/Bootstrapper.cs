@@ -1,6 +1,7 @@
 using SkySystem;
 using StarsSystem;
 using SunSystem;
+using TimerSystem;
 using UnityEngine;
 
 namespace Core
